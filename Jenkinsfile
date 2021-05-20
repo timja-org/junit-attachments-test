@@ -17,5 +17,15 @@ pipeline {
                 }
             }
         }
+        stage('Sleep') {
+            steps {
+                sh "sleep 3s"
+            }
+        }
+        stage('Sleep2') {
+            steps {
+                sh "sleep 4s"
+            }
+        }
     }
 }

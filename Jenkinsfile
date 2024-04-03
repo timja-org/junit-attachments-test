@@ -19,4 +19,4 @@ axes.values().combinations {
     }
 }
 
-parallel tasks
+parallel builds

@@ -1,21 +1,21 @@
-node {
-    stage('Checkout') {
-        checkout scm
-    }
-
-    stage('Build') {
-        withChecks(name: 'Tests', includeStage: true) {
+def axes = [
+  platforms: ['linux', 'windows'],
+  jdks: [17, 21],
+]
+def builds = [:]
+axes.values().combinations {
+     builds["${platform}-jdk${jdk}"] = {
+        node {
+         stage("${platform.capitalize()} - JDK ${jdk} - Test") {
+            checkout scm
             sh 'sleep 20'
-            try {
-                sh 'mvn -Dmaven.test.failure.ignore=true clean verify'
-            } finally {
-                junit '**/target/surefire-reports/TEST-*.xml'
-                archiveArtifacts 'target/*.jar'
-            }
+             withChecks(name: 'Tests', includeStage: true) {
+                 sh 'mvn -Dmaven.test.failure.ignore=true clean verify'
+                 junit '**/target/surefire-reports/TEST-*.xml'
+             }
+         }
         }
-    }
-
-    stage('Sleep') {
-        sh 'sleep 3'
-    }
+     }
 }
+
+parallel tasks

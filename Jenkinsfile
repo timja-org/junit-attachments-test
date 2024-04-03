@@ -4,7 +4,7 @@ node {
     }
 
     stage('Build') {
-        withChecks('Tests', includeStage: true) {
+        withChecks(name: 'Tests', includeStage: true) {
             sh 'sleep 20'
             try {
                 sh 'mvn -Dmaven.test.failure.ignore=true clean verify'

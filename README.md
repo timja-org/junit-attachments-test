@@ -1,3 +1,3 @@
 # junit-attachments-test
 
-hello world
+hello world2

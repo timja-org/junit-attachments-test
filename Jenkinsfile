@@ -4,6 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                sh "sleep 20"
                 // Run Maven on a Unix agent.
                 sh "mvn -Dmaven.test.failure.ignore=true clean verify"
             }
@@ -15,6 +16,16 @@ pipeline {
                     junit checksName: 'Testss', testResults: '**/target/surefire-reports/TEST-*.xml'
                     archiveArtifacts 'target/*.jar'
                 }
+            }
+        }
+        stage('Sleep') {
+            steps {
+                sh "sleep 3"
+            }
+        }
+        stage('Sleep2') {
+            steps {
+                sh "sleep 4"
             }
         }
     }

@@ -14,6 +14,7 @@ pipeline {
                 success {
                     junit checksName: 'Testss', testResults: '**/target/surefire-reports/TEST-*.xml'
                     archiveArtifacts 'target/*.jar'
+                    recordCoverage(tools: [[pattern: '**/jacoco/jacoco.xml']])
                 }
             }
         }

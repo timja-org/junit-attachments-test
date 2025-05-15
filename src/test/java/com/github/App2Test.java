@@ -1,10 +1,5 @@
 package com.github;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -14,10 +9,13 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 /**
  * Unit test for simple App.
  */
-public class AppTest {
+public class App2Test {
     /**
      * Rigorous Test :-)
      */

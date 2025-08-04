@@ -4,6 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                sh "sleep 20"
                 // Run Maven on a Unix agent.
                 sh "mvn -Dmaven.test.failure.ignore=true clean verify"
             }
@@ -16,6 +17,16 @@ pipeline {
                     archiveArtifacts 'target/*.jar'
                     recordCoverage(tools: [[pattern: '**/jacoco/jacoco.xml']])
                 }
+            }
+        }
+        stage('Sleep') {
+            steps {
+                sh "sleep 3"
+            }
+        }
+        stage('Sleep2') {
+            steps {
+                sh "sleep 4"
             }
         }
     }

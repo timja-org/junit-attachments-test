@@ -27,9 +27,7 @@ public class AppTest {
         List<String> linesInMemory = Collections.singletonList("HEY HEY");
         Files.write(file, linesInMemory, StandardCharsets.UTF_8);
 
-        System.out.println("[[ATTACHMENT|" + file.toAbsolutePath()  + "]]");
-        
-        assertThat(true, is(true));
+        throw new NullPointerException("test error");
     }
 
     @Test
@@ -40,7 +38,7 @@ public class AppTest {
 
         System.out.println("[[ATTACHMENT|" + file.toAbsolutePath()  + "]]");
 
-        assertThat(true, is(true));
+        assertThat(true, is(false));
     }
 
     @Test

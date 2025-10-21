@@ -9,7 +9,7 @@ axes.values().combinations {
         node {
             stage("${platform.capitalize()} - JDK ${jdk} - Test") {
                 checkout scm
-                sh 'sleep 20'
+                sh 'sleep 5'
                 withChecks(name: 'Tests', includeStage: true) {
                     sh 'mvn -Dmaven.test.failure.ignore=true clean verify'
                     junit '**/target/surefire-reports/TEST-*.xml'

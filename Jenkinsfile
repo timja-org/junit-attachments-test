@@ -1,21 +1,39 @@
+// Test pipeline for jenkinsci/checks-api-plugin#355.
+// - The implicit "Declarative: Checkout SCM" stage starts a stage and checks out straight away, the case where
+//   the stage update and the checkout update used to race to create the check.
+// - 'Labelled steps' covers #351: labelled sh steps must not publish.
+// - 'Parallel' starts 21 stages or branches at once; publishing each on the CPS VM thread stalls the build.
 pipeline {
     agent any
-
     stages {
-        stage('Build') {
+        stage('Labelled steps') {
             steps {
-                // Run Maven on a Unix agent.
-                sh "mvn -Dmaven.test.failure.ignore=true clean verify"
-            }
-
-            post {
-                // If Maven was able to run the tests, even if some of the test
-                // failed, record the test results and archive the jar file.
-                success {
-                    junit checksName: 'Testss', testResults: '**/target/surefire-reports/TEST-*.xml', testDataPublishers: [attachments()]
-                    archiveArtifacts 'target/*.jar'
-                    recordCoverage(tools: [[pattern: '**/jacoco/jacoco.xml']])
+                script {
+                    for (int i = 1; i <= 20; i++) {
+                        sh(label: "labelled step ${i}", script: 'true')
+                    }
                 }
+            }
+        }
+        stage('Parallel') {
+            steps {
+                script {
+                    def branches = [:]
+                    for (int i = 1; i <= 10; i++) {
+                        def name = "branch ${i}"
+                        branches[name] = {
+                            stage(name) {
+                                sh(label: "work in ${name}", script: 'sleep 1')
+                            }
+                        }
+                    }
+                    parallel branches
+                }
+            }
+        }
+        stage('Done') {
+            steps {
+                echo 'done'
             }
         }
     }
